@@ -15,7 +15,7 @@ $(document).one('click', function(){
 
 
 //方法2
-
+/*
 $(clickMe).on('click', function(){
 	$(popover).show()
 	$(document).one('click', function(){
@@ -26,18 +26,32 @@ $(clickMe).on('click', function(){
 $(wrapper).on('click', function(e){
 	e.stopPropagation()
 })
-
+*/
 
 
 
 //方法3:
-/*
-$(clickMe).on('click', function(){
-	$(popover).show()
-	setTimeout(function(){
-		$(document).one('click', function(){
-			$(popover).hide()
-		})
-	},3000)
+
+var flag = false
+var timer
+$(clickMe).on('click', () => {
+  console.log(flag)
+  if (!flag) {
+    $(popover).show()
+    flag = true
+    timer=setTimeout(() => {
+      $(document).one('click', () => {
+        $(popover).hide()
+        flag = false
+      })
+    }, 0)
+  } else {
+    $(popover).hide()
+    flag = false
+    $(document).off('click')
+  }
 })
-*/
+
+$(wrapper).on('click',(e)=>{
+  e.stopPropagation()
+})
